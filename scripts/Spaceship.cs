@@ -44,6 +44,11 @@ public partial class Spaceship : RigidBody2D
         LinearVelocity += -direction * RecoilForce;
     }
 
+    public override void _Ready()
+    {
+        LinearVelocity = Utils.RandomDirection() * RecoilForce;
+    }
+
     public override void _PhysicsProcess(double delta)
     {
         AngularVelocity = RotationSpeed;

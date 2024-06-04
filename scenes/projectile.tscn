@@ -1,12 +1,19 @@
-[gd_scene load_steps=3 format=3 uid="uid://ctcbb2vfr0et1"]
+[gd_scene load_steps=5 format=3 uid="uid://ctcbb2vfr0et1"]
 
 [ext_resource type="Texture2D" uid="uid://cyd1643q524op" path="res://sprites/box.png" id="1_0xh7w"]
+[ext_resource type="Script" path="res://scripts/Projectile.cs" id="1_gqrfh"]
+[ext_resource type="PackedScene" uid="uid://ddo0s4ji68k62" path="res://scenes/explosion.tscn" id="2_odhwa"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_g0yma"]
 size = Vector2(16, 4)
 
 [node name="Projectile" type="RigidBody2D"]
 gravity_scale = 0.0
+max_contacts_reported = 32
+contact_monitor = true
+script = ExtResource("1_gqrfh")
+Lifetime = 60.0
+Explosion = ExtResource("2_odhwa")
 
 [node name="Shape" type="CollisionShape2D" parent="."]
 shape = SubResource("RectangleShape2D_g0yma")

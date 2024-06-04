@@ -1,4 +1,4 @@
-[gd_scene load_steps=8 format=3 uid="uid://c6egfltalfs6d"]
+[gd_scene load_steps=11 format=3 uid="uid://c6egfltalfs6d"]
 
 [ext_resource type="Script" path="res://scripts/Spaceship.cs" id="1_e7yaq"]
 [ext_resource type="PackedScene" uid="uid://ctcbb2vfr0et1" path="res://scenes/projectile.tscn" id="2_kcmlc"]
@@ -7,12 +7,26 @@
 [ext_resource type="Texture2D" uid="uid://cyd1643q524op" path="res://sprites/box.png" id="4_7wtao"]
 [ext_resource type="PackedScene" uid="uid://ckeoiaexmcks8" path="res://scenes/meteorite.tscn" id="6_31u28"]
 
+[sub_resource type="PhysicsMaterial" id="PhysicsMaterial_nyol3"]
+friction = 0.0
+bounce = 1.0
+
 [sub_resource type="CircleShape2D" id="CircleShape2D_cb8fj"]
 radius = 16.0
+
+[sub_resource type="SegmentShape2D" id="SegmentShape2D_ycpv4"]
+a = Vector2(0, -360)
+b = Vector2(0, 360)
+
+[sub_resource type="SegmentShape2D" id="SegmentShape2D_5vypt"]
+a = Vector2(640, 0)
+b = Vector2(-640, 0)
 
 [node name="Root" type="Node2D"]
 
 [node name="Spaceship" type="RigidBody2D" parent="." node_paths=PackedStringArray("Root", "ProjectileSpawnpoint")]
+collision_mask = 3
+physics_material_override = SubResource("PhysicsMaterial_nyol3")
 gravity_scale = 0.0
 script = ExtResource("1_e7yaq")
 Root = NodePath("..")
@@ -49,6 +63,56 @@ RotationSpeedRange = Vector2(0.785, 3.142)
 
 [node name="Camera" type="Camera2D" parent="."]
 
-[node name="Box" type="Sprite2D" parent="."]
-position = Vector2(424, -266)
-texture = ExtResource("4_7wtao")
+[node name="Boundaries" type="Node2D" parent="."]
+
+[node name="Left" type="StaticBody2D" parent="Boundaries"]
+position = Vector2(-544, 0)
+collision_layer = 2
+collision_mask = 2
+
+[node name="Shape" type="CollisionShape2D" parent="Boundaries/Left"]
+shape = SubResource("SegmentShape2D_ycpv4")
+
+[node name="Line" type="Line2D" parent="Boundaries/Left"]
+points = PackedVector2Array(0, 360, 0, -360)
+width = 5.0
+default_color = Color(0, 1, 0, 1)
+
+[node name="Right" type="StaticBody2D" parent="Boundaries"]
+position = Vector2(544, 0)
+collision_layer = 2
+collision_mask = 2
+
+[node name="Shape" type="CollisionShape2D" parent="Boundaries/Right"]
+shape = SubResource("SegmentShape2D_ycpv4")
+
+[node name="Line" type="Line2D" parent="Boundaries/Right"]
+points = PackedVector2Array(0, 360, 0, -360)
+width = 5.0
+default_color = Color(0, 1, 0, 1)
+
+[node name="Bottom" type="StaticBody2D" parent="Boundaries"]
+position = Vector2(0, 292)
+collision_layer = 2
+collision_mask = 2
+
+[node name="Shape" type="CollisionShape2D" parent="Boundaries/Bottom"]
+shape = SubResource("SegmentShape2D_5vypt")
+
+[node name="Line" type="Line2D" parent="Boundaries/Bottom"]
+points = PackedVector2Array(640, 0, -640, 0)
+width = 5.0
+default_color = Color(0, 1, 0, 1)
+
+[node name="Top" type="StaticBody2D" parent="Boundaries"]
+position = Vector2(0, -292)
+collision_layer = 2
+collision_mask = 2
+
+[node name="Shape" type="CollisionShape2D" parent="Boundaries/Top"]
+shape = SubResource("SegmentShape2D_5vypt")
+
+[node name="Line" type="Line2D" parent="Boundaries/Top"]
+points = PackedVector2Array(640, 0, -640, 0)
+width = 5.0
+default_color = Color(0, 1, 0, 1)

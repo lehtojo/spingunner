@@ -8,7 +8,10 @@ radius = 16.0
 
 [node name="Meteorite" type="RigidBody2D"]
 gravity_scale = 0.0
+max_contacts_reported = 32
+contact_monitor = true
 script = ExtResource("1_4vtou")
+metadata/type = "meteorite"
 
 [node name="Shape" type="CollisionShape2D" parent="."]
 shape = SubResource("CircleShape2D_5i0ps")
