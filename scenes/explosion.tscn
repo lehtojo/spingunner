@@ -1,4 +1,6 @@
-[gd_scene load_steps=3 format=3 uid="uid://ddo0s4ji68k62"]
+[gd_scene load_steps=4 format=3 uid="uid://ddo0s4ji68k62"]
+
+[ext_resource type="AudioStream" uid="uid://cj7c07r77el73" path="res://sounds/explosion.wav" id="1_jjaks"]
 
 [sub_resource type="Gradient" id="Gradient_dq13g"]
 colors = PackedColorArray(1, 0.12549, 0, 1, 1, 1, 1, 1)
@@ -23,3 +25,8 @@ scale_amount_max = 8.0
 color = Color(1, 0.313726, 0, 1)
 color_ramp = SubResource("Gradient_dq13g")
 color_initial_ramp = SubResource("Gradient_ywxms")
+
+[node name="Audio" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("1_jjaks")
+pitch_scale = 0.8
+autoplay = true

@@ -4,17 +4,13 @@ using Godot;
 
 public partial class Spaceship : RigidBody2D
 {
+    private const float InitialSpeed = 16;
+
     [Export]
     public Node2D? Root { get; set; }
 
     [Export]
     public float RotationSpeed { get; set; } = (float)Math.PI / 2.0f;
-
-    [Export]
-    public float RecoilForce { get; set; }
-
-    [Export]
-    public float MaxSpeed { get; set; }
 
     [Export]
     public float ShakeStrength { get; set; } = 32.0f;
@@ -26,16 +22,13 @@ public partial class Spaceship : RigidBody2D
     public float ShootCooldown { get; set; }
 
     [Export]
-    public PackedScene? Projectile { get; set; }
-
-    [Export]
-    public Node2D? ProjectileSpawnpoint { get; set; }
-
-    [Export]
-    public float ProjectileSpeed { get; set; }
+    public Cannon[] Cannons { get; set; } = Array.Empty<Cannon>();
 
     [Export]
     public PackedScene? Explosion { get; set; }
+
+    [Export]
+    public AudioStreamPlayer? CannonSound { get; set; }
 
     private float ShootCooldownRemaining { get; set; }
     private float CurrentShakeStrength { get; set; }
@@ -88,29 +81,20 @@ public partial class Spaceship : RigidBody2D
 
     private void Shoot()
     {
-        if (Projectile?.Instantiate() is not RigidBody2D projectile)
-            throw new InvalidDataException("Expected projectile to be a rigid body");
-
-        // Make the projectile go towards the direction we're facing
-        var direction = new Vector2(MathF.Cos(Rotation), MathF.Sin(Rotation));
-
-        projectile.GlobalPosition = ProjectileSpawnpoint?.GlobalPosition ?? Vector2.Zero;
-        projectile.LinearVelocity = direction * ProjectileSpeed;
-        projectile.Rotation = Rotation;
-        Root?.AddChild(projectile);
+        foreach (var cannon in Cannons)
+            cannon.Shoot();
 
         // Start shaking the camera
         Shake();
 
-        // Apply opposite recoil force to ourselves
-        LinearVelocity += -direction * RecoilForce;
-        LinearVelocity = LinearVelocity.Normalized() * MathF.Min(LinearVelocity.Length(), MaxSpeed);
+        // Play the shooting audio
+        CannonSound?.Play();
     }
 
     public void Reset()
     {
         GlobalPosition = Vector2.Zero;
-        LinearVelocity = Utils.RandomDirection() * RecoilForce;
+        LinearVelocity = Utils.RandomDirection() * InitialSpeed;
 
         // Enable all the necessary components
         SetProcess(true);
@@ -143,7 +127,6 @@ public partial class Spaceship : RigidBody2D
         if (ShootCooldownRemaining <= 0.0f && Input.IsActionPressed("Shoot"))
         {
             ShootCooldownRemaining = ShootCooldown;
-            GD.Print("Shooting");
             Shoot();
         }
     }
