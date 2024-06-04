@@ -1,4 +1,4 @@
-[gd_scene load_steps=15 format=3 uid="uid://c6egfltalfs6d"]
+[gd_scene load_steps=16 format=3 uid="uid://c6egfltalfs6d"]
 
 [ext_resource type="Script" path="res://scripts/Spaceship.cs" id="1_e7yaq"]
 [ext_resource type="PackedScene" uid="uid://ctcbb2vfr0et1" path="res://scenes/projectile.tscn" id="2_kcmlc"]
@@ -8,6 +8,7 @@
 [ext_resource type="PackedScene" uid="uid://ckeoiaexmcks8" path="res://scenes/meteorite.tscn" id="6_31u28"]
 [ext_resource type="FontFile" uid="uid://bi1udhkgrc7tf" path="res://config/font.ttf" id="7_1skhv"]
 [ext_resource type="Script" path="res://scripts/PointCounter.cs" id="7_6phd5"]
+[ext_resource type="PackedScene" uid="uid://d4ctclc5ppj7d" path="res://scenes/score.tscn" id="9_xooyc"]
 
 [sub_resource type="PhysicsMaterial" id="PhysicsMaterial_nyol3"]
 friction = 0.0
@@ -38,6 +39,8 @@ font_size = 32
 collision_mask = 3
 physics_material_override = SubResource("PhysicsMaterial_nyol3")
 gravity_scale = 0.0
+max_contacts_reported = 32
+contact_monitor = true
 script = ExtResource("1_e7yaq")
 Root = NodePath("..")
 RotationSpeed = 3.142
@@ -91,9 +94,10 @@ collision_mask = 2
 shape = SubResource("SegmentShape2D_ycpv4")
 
 [node name="Line" type="Line2D" parent="Boundaries/Left"]
-points = PackedVector2Array(0, 360, 0, -360)
-width = 5.0
+points = PackedVector2Array(0, 293, 0, -293)
+width = 2.0
 default_color = Color(0, 1, 0, 1)
+texture_mode = 2
 
 [node name="Right" type="StaticBody2D" parent="Boundaries"]
 position = Vector2(544, 0)
@@ -104,8 +108,8 @@ collision_mask = 2
 shape = SubResource("SegmentShape2D_ycpv4")
 
 [node name="Line" type="Line2D" parent="Boundaries/Right"]
-points = PackedVector2Array(0, 360, 0, -360)
-width = 5.0
+points = PackedVector2Array(0, 293, 0, -293)
+width = 2.0
 default_color = Color(0, 1, 0, 1)
 
 [node name="Bottom" type="StaticBody2D" parent="Boundaries"]
@@ -117,8 +121,8 @@ collision_mask = 2
 shape = SubResource("SegmentShape2D_5vypt")
 
 [node name="Line" type="Line2D" parent="Boundaries/Bottom"]
-points = PackedVector2Array(640, 0, -640, 0)
-width = 5.0
+points = PackedVector2Array(544, 0, -544, 0)
+width = 2.0
 default_color = Color(0, 1, 0, 1)
 
 [node name="Top" type="StaticBody2D" parent="Boundaries"]
@@ -130,8 +134,8 @@ collision_mask = 2
 shape = SubResource("SegmentShape2D_5vypt")
 
 [node name="Line" type="Line2D" parent="Boundaries/Top"]
-points = PackedVector2Array(640, 0, -640, 0)
-width = 5.0
+points = PackedVector2Array(544, 0, -544, 0)
+width = 2.0
 default_color = Color(0, 1, 0, 1)
 
 [node name="Gui" type="CanvasLayer" parent="."]
@@ -148,3 +152,7 @@ text = "1000"
 label_settings = SubResource("LabelSettings_y0hb0")
 script = ExtResource("7_6phd5")
 PointsPerSecond = 100
+
+[node name="Score" parent="Gui" instance=ExtResource("9_xooyc")]
+initial_position = 2
+visible = false

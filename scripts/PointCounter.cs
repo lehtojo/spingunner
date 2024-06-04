@@ -8,6 +8,7 @@ public partial class PointCounter : Label
     public int PointsPerSecond { get; set; }
 
     public float Points { get; set; }
+    public bool Enabled { get; set; } = true;
 
     public override void _Ready()
     {
@@ -16,7 +17,9 @@ public partial class PointCounter : Label
 
     public override void _Process(double delta)
     {
-        Points += PointsPerSecond * (float)delta;
+        if (Enabled)
+            Points += PointsPerSecond * (float)delta;
+
         Text = ((int)Points).ToString();
     }
 

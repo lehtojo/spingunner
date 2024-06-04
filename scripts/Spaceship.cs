@@ -42,6 +42,24 @@ public partial class Spaceship : RigidBody2D
         CurrentShakeStrength = ShakeStrength * factor;
     }
 
+    private void OnHit(Node body)
+    {
+        if (body.HasMeta("type") && body.GetMeta("type").AsString() == "meteorite")
+        {
+            // Slow down the world, because the player has just lost
+            Engine.TimeScale = 0.1;
+
+            // Fetch the current score and stop the counter
+            var counter = GetTree().Root.GetNode<PointCounter>("Root/Gui/Points");
+            counter.Enabled = false;
+
+            // Show the score dialog
+            var popup = GetTree().Root.GetNode<ScorePopup>("Root/Gui/Score");
+            popup.Initialize((int)counter.Points);
+            popup.Show();
+        }
+    }
+
     private void Shoot()
     {
         if (Projectile?.Instantiate() is not RigidBody2D projectile)
@@ -65,6 +83,7 @@ public partial class Spaceship : RigidBody2D
 
     public override void _Ready()
     {
+        BodyEntered += OnHit;
         LinearVelocity = Utils.RandomDirection() * RecoilForce;
     }
 

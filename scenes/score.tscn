@@ -1,0 +1,119 @@
+[gd_scene load_steps=10 format=3 uid="uid://d4ctclc5ppj7d"]
+
+[ext_resource type="FontFile" uid="uid://bi1udhkgrc7tf" path="res://config/font.ttf" id="1_cuyvv"]
+[ext_resource type="Script" path="res://scripts/ScorePopup.cs" id="1_wsdd0"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_cgufn"]
+content_margin_left = 16.0
+content_margin_top = 16.0
+content_margin_right = 16.0
+content_margin_bottom = 16.0
+bg_color = Color(0, 0, 0, 1)
+border_width_left = 4
+border_width_top = 4
+border_width_right = 4
+border_width_bottom = 4
+border_color = Color(0, 1, 0, 1)
+corner_radius_top_left = 8
+corner_radius_top_right = 8
+corner_radius_bottom_right = 8
+corner_radius_bottom_left = 8
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_6i22m"]
+content_margin_top = 32.0
+content_margin_bottom = 0.0
+
+[sub_resource type="LabelSettings" id="LabelSettings_b2o4n"]
+font = ExtResource("1_cuyvv")
+font_size = 24
+font_color = Color(1, 0, 0, 1)
+
+[sub_resource type="LabelSettings" id="LabelSettings_rj0xm"]
+font = ExtResource("1_cuyvv")
+font_color = Color(1, 1, 0, 1)
+shadow_size = 0
+
+[sub_resource type="LabelSettings" id="LabelSettings_3tg22"]
+line_spacing = 8.0
+font = ExtResource("1_cuyvv")
+font_size = 14
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_i8t42"]
+content_margin_left = 16.0
+content_margin_top = 8.0
+content_margin_right = 16.0
+content_margin_bottom = 8.0
+bg_color = Color(0, 0.615686, 0, 1)
+corner_radius_top_left = 8
+corner_radius_top_right = 8
+corner_radius_bottom_right = 8
+corner_radius_bottom_left = 8
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_jf20o"]
+content_margin_left = 16.0
+content_margin_right = 16.0
+bg_color = Color(0.27451, 0.27451, 0.27451, 1)
+corner_radius_top_left = 8
+corner_radius_top_right = 8
+corner_radius_bottom_right = 8
+corner_radius_bottom_left = 8
+
+[node name="Popup" type="Popup" node_paths=PackedStringArray("HighscoreLabel", "Text", "Exit", "Restart")]
+size = Vector2i(360, 214)
+visible = true
+script = ExtResource("1_wsdd0")
+HighscoreLabel = NodePath("Score/Container/Label")
+Text = NodePath("Score/Container/Content/Text")
+Exit = NodePath("Score/Container/Buttons/Exit")
+Restart = NodePath("Score/Container/Buttons/Restart")
+
+[node name="Score" type="PanelContainer" parent="."]
+custom_minimum_size = Vector2(360, 0)
+theme_override_styles/panel = SubResource("StyleBoxFlat_cgufn")
+
+[node name="Container" type="VBoxContainer" parent="Score"]
+layout_mode = 2
+theme_override_constants/separation = 32
+
+[node name="Title" type="Label" parent="Score/Container"]
+layout_mode = 2
+theme_override_styles/normal = SubResource("StyleBoxEmpty_6i22m")
+text = "Game Over"
+label_settings = SubResource("LabelSettings_b2o4n")
+horizontal_alignment = 1
+
+[node name="Label" type="Label" parent="Score/Container"]
+visible = false
+layout_mode = 2
+text = "NEW HIGHSCORE!"
+label_settings = SubResource("LabelSettings_rj0xm")
+horizontal_alignment = 1
+
+[node name="Content" type="VBoxContainer" parent="Score/Container"]
+layout_mode = 2
+
+[node name="Text" type="Label" parent="Score/Container/Content"]
+layout_mode = 2
+text = "Score: 1234
+Highscore: 1234"
+label_settings = SubResource("LabelSettings_3tg22")
+horizontal_alignment = 1
+uppercase = true
+
+[node name="Buttons" type="HBoxContainer" parent="Score/Container"]
+layout_direction = 3
+layout_mode = 2
+
+[node name="Restart" type="Button" parent="Score/Container/Buttons"]
+layout_mode = 2
+theme_override_fonts/font = ExtResource("1_cuyvv")
+theme_override_font_sizes/font_size = 8
+theme_override_styles/normal = SubResource("StyleBoxFlat_i8t42")
+text = "Restart"
+
+[node name="Exit" type="Button" parent="Score/Container/Buttons"]
+layout_mode = 2
+theme_override_fonts/font = ExtResource("1_cuyvv")
+theme_override_font_sizes/font_size = 8
+theme_override_styles/normal = SubResource("StyleBoxFlat_jf20o")
+text = "Exit"
