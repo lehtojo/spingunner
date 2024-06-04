@@ -1,4 +1,4 @@
-[gd_scene load_steps=20 format=3 uid="uid://c6egfltalfs6d"]
+[gd_scene load_steps=22 format=3 uid="uid://c6egfltalfs6d"]
 
 [ext_resource type="Script" path="res://scripts/Spaceship.cs" id="1_e7yaq"]
 [ext_resource type="PackedScene" uid="uid://ctcbb2vfr0et1" path="res://scenes/projectile.tscn" id="2_kcmlc"]
@@ -13,6 +13,7 @@
 [ext_resource type="Script" path="res://scripts/PointCounter.cs" id="7_6phd5"]
 [ext_resource type="PackedScene" uid="uid://d4ctclc5ppj7d" path="res://scenes/score.tscn" id="9_xooyc"]
 [ext_resource type="AudioStream" uid="uid://d2c858430n3xv" path="res://sounds/music.mp3" id="12_d2vq6"]
+[ext_resource type="Shader" path="res://crt.gdshader" id="13_laesp"]
 
 [sub_resource type="PhysicsMaterial" id="PhysicsMaterial_nyol3"]
 friction = 0.0
@@ -36,6 +37,19 @@ content_margin_right = 48.0
 [sub_resource type="LabelSettings" id="LabelSettings_y0hb0"]
 font = ExtResource("7_1skhv")
 font_size = 32
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_mtolh"]
+shader = ExtResource("13_laesp")
+shader_parameter/screen_width = 1024.0
+shader_parameter/screen_height = 600.0
+shader_parameter/BarrelPower = 1.1
+shader_parameter/color_bleeding = 1.2
+shader_parameter/bleeding_range_x = 3.0
+shader_parameter/bleeding_range_y = 3.0
+shader_parameter/lines_distance = 4.0
+shader_parameter/scan_size = 2.0
+shader_parameter/scanline_alpha = 0.9
+shader_parameter/lines_velocity = 30.0
 
 [node name="Root" type="Node2D"]
 
@@ -199,6 +213,15 @@ PointsPerSecond = 100
 [node name="Score" parent="Gui" instance=ExtResource("9_xooyc")]
 initial_position = 2
 visible = false
+
+[node name="ColorRect" type="ColorRect" parent="Gui"]
+material = SubResource("ShaderMaterial_mtolh")
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+scale = Vector2(19.6461, 9.82974)
 
 [node name="Music" type="AudioStreamPlayer" parent="."]
 stream = ExtResource("12_d2vq6")
