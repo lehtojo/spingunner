@@ -1,8 +1,8 @@
-using System;
 using Godot;
 
 public partial class Meteorite : RigidBody2D
 {
+    public const string Group = "meteorites";
     public const float Lifetime = 60.0f;
 
     private Vector2 Velocity { get; set; }
@@ -15,6 +15,7 @@ public partial class Meteorite : RigidBody2D
         GlobalPosition = position;
         Velocity = velocity;
         RotationSpeed = rotation_speed;
+        AddToGroup(Group);
     }
 
     // public override void _Draw()

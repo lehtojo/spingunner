@@ -1,6 +1,6 @@
 using Godot;
 
-public partial class ScorePopup : Popup
+public partial class ScorePopup : Window
 {
     [Export]
     public Label? HighscoreLabel { get; set; }
@@ -38,7 +38,24 @@ public partial class ScorePopup : Popup
 
     private void OnRestart()
     {
+        // Destroy all meteorites
+        foreach (var meteorite in GetTree().GetNodesInGroup(Meteorite.Group))
+            meteorite.QueueFree();
 
+        // Reset the player to the center
+        var spaceship = GetTree().Root.GetNode<Spaceship>("Root/Spaceship");
+        spaceship.Reset();
+
+        // Remove slow down
+        Engine.TimeScale = 1.0f;
+
+        // Restart the score counter
+        var counter = GetTree().Root.GetNode<PointCounter>("Root/Gui/Points");
+        counter.Points = 0;
+        counter.Enabled = true;
+
+        // Hide the popup
+        Hide();
     }
 
     public override void _Ready()

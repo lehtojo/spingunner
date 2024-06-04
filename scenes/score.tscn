@@ -58,9 +58,10 @@ corner_radius_top_right = 8
 corner_radius_bottom_right = 8
 corner_radius_bottom_left = 8
 
-[node name="Popup" type="Popup" node_paths=PackedStringArray("HighscoreLabel", "Text", "Exit", "Restart")]
-size = Vector2i(360, 214)
-visible = true
+[node name="Popup" type="Window" node_paths=PackedStringArray("HighscoreLabel", "Text", "Exit", "Restart")]
+size = Vector2i(360, 360)
+unresizable = true
+borderless = true
 script = ExtResource("1_wsdd0")
 HighscoreLabel = NodePath("Score/Container/Label")
 Text = NodePath("Score/Container/Content/Text")

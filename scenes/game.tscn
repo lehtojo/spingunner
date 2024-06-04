@@ -1,8 +1,9 @@
-[gd_scene load_steps=16 format=3 uid="uid://c6egfltalfs6d"]
+[gd_scene load_steps=17 format=3 uid="uid://c6egfltalfs6d"]
 
 [ext_resource type="Script" path="res://scripts/Spaceship.cs" id="1_e7yaq"]
 [ext_resource type="PackedScene" uid="uid://ctcbb2vfr0et1" path="res://scenes/projectile.tscn" id="2_kcmlc"]
 [ext_resource type="Texture2D" uid="uid://b1q51qwd5gypr" path="res://sprites/circle.png" id="2_sav4l"]
+[ext_resource type="PackedScene" uid="uid://ddo0s4ji68k62" path="res://scenes/explosion.tscn" id="3_c0awg"]
 [ext_resource type="Script" path="res://scripts/MeteoriteSpawner.cs" id="3_c8w6i"]
 [ext_resource type="Texture2D" uid="uid://cyd1643q524op" path="res://sprites/box.png" id="4_7wtao"]
 [ext_resource type="PackedScene" uid="uid://ckeoiaexmcks8" path="res://scenes/meteorite.tscn" id="6_31u28"]
@@ -52,6 +53,7 @@ ShootCooldown = 0.25
 Projectile = ExtResource("2_kcmlc")
 ProjectileSpawnpoint = NodePath("Cannon/Spawnpoint")
 ProjectileSpeed = 1024.0
+Explosion = ExtResource("3_c0awg")
 
 [node name="Shape" type="CollisionShape2D" parent="Spaceship"]
 shape = SubResource("CircleShape2D_cb8fj")

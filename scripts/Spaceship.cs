@@ -34,6 +34,9 @@ public partial class Spaceship : RigidBody2D
     [Export]
     public float ProjectileSpeed { get; set; }
 
+    [Export]
+    public PackedScene? Explosion { get; set; }
+
     private float ShootCooldownRemaining { get; set; }
     private float CurrentShakeStrength { get; set; }
 
@@ -42,21 +45,44 @@ public partial class Spaceship : RigidBody2D
         CurrentShakeStrength = ShakeStrength * factor;
     }
 
+    private void ShowScoreDialog()
+    {
+        // Fetch the current score and stop the counter
+        var counter = GetTree().Root.GetNode<PointCounter>("Root/Gui/Points");
+        counter.Enabled = false;
+
+        // Show the score dialog
+        var popup = GetTree().Root.GetNode<ScorePopup>("Root/Gui/Score");
+        popup.Initialize((int)counter.Points);
+        popup.Show();
+    }
+
     private void OnHit(Node body)
     {
         if (body.HasMeta("type") && body.GetMeta("type").AsString() == "meteorite")
         {
-            // Slow down the world, because the player has just lost
-            Engine.TimeScale = 0.1;
+            // Explode the ship
+            if (Explosion?.Instantiate() is not CpuParticles2D explosion)
+                throw new InvalidDataException("Failed to spawn an explosion");
 
-            // Fetch the current score and stop the counter
-            var counter = GetTree().Root.GetNode<PointCounter>("Root/Gui/Points");
-            counter.Enabled = false;
+            explosion.GlobalPosition = GlobalPosition;
+            explosion.Emitting = true;
+            GetTree().Root.AddChild(explosion);
 
-            // Show the score dialog
-            var popup = GetTree().Root.GetNode<ScorePopup>("Root/Gui/Score");
-            popup.Initialize((int)counter.Points);
-            popup.Show();
+            // Disable and hide the player
+            SetProcess(false);
+            CollisionLayer = 0;
+            Visible = false;
+
+            // Make a big blast shake
+            Shake(10.0f);
+
+            explosion.Finished += () =>
+            {
+                // Slow down the world, because the player has just lost
+                Engine.TimeScale = 0.075;
+                ShowScoreDialog();
+            };
         }
     }
 
@@ -81,10 +107,21 @@ public partial class Spaceship : RigidBody2D
         LinearVelocity = LinearVelocity.Normalized() * MathF.Min(LinearVelocity.Length(), MaxSpeed);
     }
 
+    public void Reset()
+    {
+        GlobalPosition = Vector2.Zero;
+        LinearVelocity = Utils.RandomDirection() * RecoilForce;
+
+        // Enable all the necessary components
+        SetProcess(true);
+        CollisionLayer = 1;
+        Visible = true;
+    }
+
     public override void _Ready()
     {
+        Reset();
         BodyEntered += OnHit;
-        LinearVelocity = Utils.RandomDirection() * RecoilForce;
     }
 
     public override void _Process(double delta)
