@@ -5,7 +5,7 @@
 [ext_resource type="PackedScene" uid="uid://ddo0s4ji68k62" path="res://scenes/explosion.tscn" id="2_odhwa"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_g0yma"]
-size = Vector2(16, 4)
+size = Vector2(16, 2)
 
 [node name="Projectile" type="RigidBody2D"]
 gravity_scale = 0.0
@@ -19,5 +19,6 @@ Explosion = ExtResource("2_odhwa")
 shape = SubResource("RectangleShape2D_g0yma")
 
 [node name="Sprite" type="Sprite2D" parent="."]
-scale = Vector2(0.5, 0.1)
+modulate = Color(1, 0, 0, 1)
+scale = Vector2(0.5, 0.05)
 texture = ExtResource("1_0xh7w")

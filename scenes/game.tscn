@@ -1,4 +1,4 @@
-[gd_scene load_steps=11 format=3 uid="uid://c6egfltalfs6d"]
+[gd_scene load_steps=15 format=3 uid="uid://c6egfltalfs6d"]
 
 [ext_resource type="Script" path="res://scripts/Spaceship.cs" id="1_e7yaq"]
 [ext_resource type="PackedScene" uid="uid://ctcbb2vfr0et1" path="res://scenes/projectile.tscn" id="2_kcmlc"]
@@ -6,6 +6,8 @@
 [ext_resource type="Script" path="res://scripts/MeteoriteSpawner.cs" id="3_c8w6i"]
 [ext_resource type="Texture2D" uid="uid://cyd1643q524op" path="res://sprites/box.png" id="4_7wtao"]
 [ext_resource type="PackedScene" uid="uid://ckeoiaexmcks8" path="res://scenes/meteorite.tscn" id="6_31u28"]
+[ext_resource type="FontFile" uid="uid://bi1udhkgrc7tf" path="res://config/font.ttf" id="7_1skhv"]
+[ext_resource type="Script" path="res://scripts/PointCounter.cs" id="7_6phd5"]
 
 [sub_resource type="PhysicsMaterial" id="PhysicsMaterial_nyol3"]
 friction = 0.0
@@ -22,6 +24,14 @@ b = Vector2(0, 360)
 a = Vector2(640, 0)
 b = Vector2(-640, 0)
 
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_je4wq"]
+content_margin_top = 48.0
+content_margin_right = 48.0
+
+[sub_resource type="LabelSettings" id="LabelSettings_y0hb0"]
+font = ExtResource("7_1skhv")
+font_size = 32
+
 [node name="Root" type="Node2D"]
 
 [node name="Spaceship" type="RigidBody2D" parent="." node_paths=PackedStringArray("Root", "ProjectileSpawnpoint")]
@@ -30,12 +40,12 @@ physics_material_override = SubResource("PhysicsMaterial_nyol3")
 gravity_scale = 0.0
 script = ExtResource("1_e7yaq")
 Root = NodePath("..")
-RotationSpeed = 6.284
-RecoilForce = 200.0
+RotationSpeed = 3.142
+RecoilForce = 100.0
 ShootCooldown = 0.25
 Projectile = ExtResource("2_kcmlc")
 ProjectileSpawnpoint = NodePath("Cannon/Spawnpoint")
-ProjectileSpeed = 512.0
+ProjectileSpeed = 1024.0
 
 [node name="Shape" type="CollisionShape2D" parent="Spaceship"]
 shape = SubResource("CircleShape2D_cb8fj")
@@ -53,12 +63,16 @@ texture = ExtResource("4_7wtao")
 [node name="Spawnpoint" type="Node2D" parent="Spaceship/Cannon"]
 position = Vector2(11, 0)
 
+[node name="Line" type="Line2D" parent="Spaceship/Cannon"]
+points = PackedVector2Array(0, 0, 2560, 0)
+default_color = Color(0.501961, 0.501961, 0.501961, 0.501961)
+
 [node name="Spawner" type="Node2D" parent="." node_paths=PackedStringArray("Root")]
 script = ExtResource("3_c8w6i")
 Meteorite = ExtResource("6_31u28")
 Root = NodePath("..")
-SpawnIntervalRange = Vector2(0.2, 2)
-VelocityRange = Vector2(32, 256)
+SpawnIntervalRange = Vector2(0.4, 3)
+VelocityRange = Vector2(32, 128)
 RotationSpeedRange = Vector2(0.785, 3.142)
 
 [node name="Camera" type="Camera2D" parent="."]
@@ -116,3 +130,18 @@ shape = SubResource("SegmentShape2D_5vypt")
 points = PackedVector2Array(640, 0, -640, 0)
 width = 5.0
 default_color = Color(0, 1, 0, 1)
+
+[node name="Gui" type="CanvasLayer" parent="."]
+
+[node name="Points" type="Label" parent="Gui"]
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -40.0
+offset_bottom = 23.0
+grow_horizontal = 0
+theme_override_styles/normal = SubResource("StyleBoxEmpty_je4wq")
+text = "1000"
+label_settings = SubResource("LabelSettings_y0hb0")
+script = ExtResource("7_6phd5")
+PointsPerSecond = 100
