@@ -37,6 +37,11 @@ public partial class Spaceship : RigidBody2D
     private float ShootCooldownRemaining { get; set; }
     private float CurrentShakeStrength { get; set; }
 
+    public void Shake(float factor = 1.0f)
+    {
+        CurrentShakeStrength = ShakeStrength * factor;
+    }
+
     private void Shoot()
     {
         if (Projectile?.Instantiate() is not RigidBody2D projectile)
@@ -51,7 +56,7 @@ public partial class Spaceship : RigidBody2D
         Root?.AddChild(projectile);
 
         // Start shaking the camera
-        CurrentShakeStrength = ShakeStrength;
+        Shake();
 
         // Apply opposite recoil force to ourselves
         LinearVelocity += -direction * RecoilForce;

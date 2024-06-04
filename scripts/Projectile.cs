@@ -25,6 +25,7 @@ public partial class Projectile : RigidBody2D
             // QueueFree(); // We don't despawn the projectile as we want piercing
 
             GetTree().Root.GetNode<PointCounter>("Root/Gui/Points").OnHitMeteorite();
+            GetTree().Root.GetNode<Spaceship>("Root/Spaceship").Shake(4.0f);
         }
     }
 
