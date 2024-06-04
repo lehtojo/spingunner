@@ -1,0 +1,7 @@
+- Homing meteorites
+- Adjust the target to the player?
+- Rapid fire?
+- Super spin debuff
+- Boundaries
+- Burst mode
+- Camera shake upon shooting

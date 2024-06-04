@@ -1,0 +1,54 @@
+[gd_scene load_steps=8 format=3 uid="uid://c6egfltalfs6d"]
+
+[ext_resource type="Script" path="res://scripts/Spaceship.cs" id="1_e7yaq"]
+[ext_resource type="PackedScene" uid="uid://ctcbb2vfr0et1" path="res://scenes/projectile.tscn" id="2_kcmlc"]
+[ext_resource type="Texture2D" uid="uid://b1q51qwd5gypr" path="res://sprites/circle.png" id="2_sav4l"]
+[ext_resource type="Script" path="res://scripts/MeteoriteSpawner.cs" id="3_c8w6i"]
+[ext_resource type="Texture2D" uid="uid://cyd1643q524op" path="res://sprites/box.png" id="4_7wtao"]
+[ext_resource type="PackedScene" uid="uid://ckeoiaexmcks8" path="res://scenes/meteorite.tscn" id="6_31u28"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_cb8fj"]
+radius = 16.0
+
+[node name="Root" type="Node2D"]
+
+[node name="Spaceship" type="RigidBody2D" parent="." node_paths=PackedStringArray("Root", "ProjectileSpawnpoint")]
+gravity_scale = 0.0
+script = ExtResource("1_e7yaq")
+Root = NodePath("..")
+RotationSpeed = 6.284
+RecoilForce = 200.0
+ShootCooldown = 0.25
+Projectile = ExtResource("2_kcmlc")
+ProjectileSpawnpoint = NodePath("Cannon/Spawnpoint")
+ProjectileSpeed = 512.0
+
+[node name="Shape" type="CollisionShape2D" parent="Spaceship"]
+shape = SubResource("CircleShape2D_cb8fj")
+
+[node name="Sprite" type="Sprite2D" parent="Spaceship"]
+modulate = Color(0, 1, 0, 1)
+texture = ExtResource("2_sav4l")
+
+[node name="Cannon" type="Sprite2D" parent="Spaceship"]
+modulate = Color(0, 1, 0, 1)
+position = Vector2(25, 0)
+scale = Vector2(0.75, 0.2)
+texture = ExtResource("4_7wtao")
+
+[node name="Spawnpoint" type="Node2D" parent="Spaceship/Cannon"]
+position = Vector2(11, 0)
+
+[node name="Spawner" type="Node2D" parent="." node_paths=PackedStringArray("Root")]
+script = ExtResource("3_c8w6i")
+Meteorite = ExtResource("6_31u28")
+Root = NodePath("..")
+SpawnIntervalRange = Vector2(0.2, 2)
+VelocityRange = Vector2(32, 256)
+RotationSpeedRange = Vector2(0.785, 3.142)
+
+[node name="Camera" type="Camera2D" parent="."]
+
+[node name="Box" type="Sprite2D" parent="."]
+position = Vector2(424, -266)
+texture = ExtResource("4_7wtao")
