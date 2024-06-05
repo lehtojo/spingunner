@@ -1,7 +1,10 @@
+Other:
 - Homing meteorites
-- Adjust the target to the player?
-- Rapid fire?
-- Super spin debuff
-- Boundaries
-- Burst mode
-- Camera shake upon shooting
+- Aggressive meteorite burst
+
+Tuntikirjanpito:
+3.6 | 20:30 - 22:00 - Suunnitelma 1.5h
+4.6 | 15:00 - 21:00 - Suurin osa perus koodailuista ilman erikoistilanteita - 6h
+5.6 | 23:45 - 1:00 - Äänet ja vähän aseistusta - 1h
+5.6 | 20:00 - 00:00 - Spriteja ja koodailua - 4h
+      = 12.5 h
