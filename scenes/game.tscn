@@ -1,4 +1,4 @@
-[gd_scene load_steps=22 format=3 uid="uid://c6egfltalfs6d"]
+[gd_scene load_steps=26 format=3 uid="uid://c6egfltalfs6d"]
 
 [ext_resource type="Script" path="res://scripts/Spaceship.cs" id="1_e7yaq"]
 [ext_resource type="PackedScene" uid="uid://ctcbb2vfr0et1" path="res://scenes/projectile.tscn" id="2_kcmlc"]
@@ -11,8 +11,12 @@
 [ext_resource type="AudioStream" uid="uid://8h2uxc8o35sl" path="res://sounds/cannon.wav" id="6_dgr32"]
 [ext_resource type="FontFile" uid="uid://bi1udhkgrc7tf" path="res://config/font.ttf" id="7_1skhv"]
 [ext_resource type="Script" path="res://scripts/PointCounter.cs" id="7_6phd5"]
+[ext_resource type="Script" path="res://scripts/BuffSystem.cs" id="8_rieuc"]
 [ext_resource type="PackedScene" uid="uid://d4ctclc5ppj7d" path="res://scenes/score.tscn" id="9_xooyc"]
+[ext_resource type="Script" path="res://scripts/BuffSpawner.cs" id="10_7dydq"]
+[ext_resource type="PackedScene" uid="uid://di5kpfcg0827c" path="res://scenes/burst_fire_buff.tscn" id="11_jbdlb"]
 [ext_resource type="AudioStream" uid="uid://d2c858430n3xv" path="res://sounds/music.mp3" id="12_d2vq6"]
+[ext_resource type="PackedScene" uid="uid://kg3mh75jlhck" path="res://scenes/rapid_fire_buff.tscn" id="12_neyex"]
 [ext_resource type="Shader" path="res://crt.gdshader" id="13_laesp"]
 
 [sub_resource type="PhysicsMaterial" id="PhysicsMaterial_nyol3"]
@@ -53,19 +57,19 @@ shader_parameter/lines_velocity = 30.0
 
 [node name="Root" type="Node2D"]
 
-[node name="Spaceship" type="RigidBody2D" parent="." node_paths=PackedStringArray("Root", "Cannons", "CannonSound")]
+[node name="Spaceship" type="RigidBody2D" parent="." node_paths=PackedStringArray("Buffs", "Cannons", "CannonSound")]
 collision_mask = 3
 physics_material_override = SubResource("PhysicsMaterial_nyol3")
 gravity_scale = 0.0
 max_contacts_reported = 32
 contact_monitor = true
 script = ExtResource("1_e7yaq")
-Root = NodePath("..")
 RotationSpeed = 3.142
 ShakeStrength = 16.0
 ShakeFade = 10.0
 ShootCooldown = 0.25
-Cannons = [NodePath("Cannon 1"), NodePath("Cannon 2"), NodePath("Cannon 3")]
+Buffs = NodePath("Buffs")
+Cannons = [NodePath("Cannon 2"), NodePath("Cannon 1"), NodePath("Cannon 3")]
 Explosion = ExtResource("3_c0awg")
 CannonSound = NodePath("Cannon Audio")
 
@@ -75,6 +79,9 @@ shape = SubResource("CircleShape2D_w3x0f")
 
 [node name="Sprite" type="Sprite2D" parent="Spaceship"]
 texture = ExtResource("3_ymq4r")
+
+[node name="Buffs" type="Node2D" parent="Spaceship"]
+script = ExtResource("8_rieuc")
 
 [node name="Cannon 1" type="Sprite2D" parent="Spaceship" node_paths=PackedStringArray("ProjectileSpawnpoint")]
 z_index = -1
@@ -128,11 +135,19 @@ default_color = Color(0.501961, 0.501961, 0.501961, 0.501961)
 stream = ExtResource("6_dgr32")
 pitch_scale = 1.5
 
-[node name="Spawner" type="Node2D" parent="." node_paths=PackedStringArray("Root")]
+[node name="Meteorite Spawner" type="Node2D" parent="." node_paths=PackedStringArray("Root")]
 script = ExtResource("3_c8w6i")
 Meteorite = ExtResource("6_31u28")
 Root = NodePath("..")
 SpawnIntervalRange = Vector2(0.4, 3)
+VelocityRange = Vector2(32, 128)
+RotationSpeedRange = Vector2(0.785, 3.142)
+ScaleRange = Vector2(0.5, 4)
+
+[node name="Buff Spawner" type="Node2D" parent="."]
+script = ExtResource("10_7dydq")
+Buffs = [ExtResource("11_jbdlb"), ExtResource("12_neyex")]
+SpawnIntervalRange = Vector2(12, 24)
 VelocityRange = Vector2(32, 128)
 RotationSpeedRange = Vector2(0.785, 3.142)
 

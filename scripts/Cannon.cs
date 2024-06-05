@@ -29,7 +29,7 @@ public partial class Cannon : Node2D
 
         projectile.GlobalPosition = position;
         projectile.LinearVelocity = direction * ProjectileSpeed;
-        projectile.Rotation = GlobalRotation;
+        projectile.GlobalRotation = GlobalRotation;
 
         GetTree().Root.AddChild(projectile);
     }
@@ -44,7 +44,7 @@ public partial class Cannon : Node2D
 
     public void Shoot()
     {
-        if (ProjectileSpawnpoint == null)
+        if (!Visible || ProjectileSpawnpoint == null)
             return;
 
         // Make the projectile go towards the direction we're facing

@@ -1,3 +1,4 @@
+using System.Linq;
 using Godot;
 
 public partial class Meteorite : RigidBody2D
@@ -10,12 +11,15 @@ public partial class Meteorite : RigidBody2D
 
     private float LifetimeRemaining { get; set; } = Lifetime;
 
-    public void Initialize(Vector2 position, Vector2 velocity, float rotation_speed)
+    public void Initialize(Vector2 position, Vector2 velocity, float rotation_speed, float scale)
     {
         GlobalPosition = position;
         Velocity = velocity;
         RotationSpeed = rotation_speed;
         AddToGroup(Group);
+
+        foreach (var child in GetChildren().Cast<Node2D>())
+            child.GlobalScale = new Vector2(scale, scale);
     }
 
     // public override void _Draw()

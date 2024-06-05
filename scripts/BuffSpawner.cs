@@ -1,13 +1,10 @@
 using System;
 using Godot;
 
-public partial class MeteoriteSpawner : Node2D
+public partial class BuffSpawner : Node2D
 {
     [Export]
-    public PackedScene? Meteorite { get; set; }
-
-    [Export]
-    public Node2D? Root { get; set; }
+    public PackedScene[] Buffs { get; set; } = Array.Empty<PackedScene>();
 
     [Export]
     public Vector2 SpawnIntervalRange { get; set; }
@@ -18,31 +15,33 @@ public partial class MeteoriteSpawner : Node2D
     [Export]
     public Vector2 RotationSpeedRange { get; set; }
 
-    [Export]
-    public Vector2 ScaleRange { get; set; }
-
     private float SpawnIntervalRemaining { get; set; }
 
     public void Spawn()
     {
         // Configure the meteorite "parameters"
-        var target = Vector2.Zero;
+        // Choose a random point within the viewport
+        var rect = GetViewportRect();
+        var left = -rect.Size.X / 2;
+        var right = rect.Size.X / 2;
+        var top = -rect.Size.Y / 2;
+        var bottom = rect.Size.Y / 2;
+        var target = new Vector2(Utils.Random(left, right), Utils.Random(top, bottom));
         var distance = MathF.Max(GetViewportRect().Size.X, GetViewportRect().Size.Y);
         var spawnpoint = target + Utils.RandomDirection() * distance;
         var direction = (target - spawnpoint).Normalized();
         var speed = Utils.Random(VelocityRange);
         var velocity = direction * speed;
         var rotation_speed = Utils.Random(RotationSpeedRange);
-        var scale = Utils.Random(ScaleRange);
 
-        var meteorite = Meteorite?.Instantiate<Meteorite>();
+        var buff = Utils.Random(Buffs).Instantiate<Buff>();
 
-        if (meteorite == null)
+        if (buff == null)
             return;
 
-        meteorite.Initialize(spawnpoint, velocity, rotation_speed, scale);
+        buff.Initialize(spawnpoint, velocity, rotation_speed);
 
-        Root?.AddChild(meteorite);
+        GetTree().Root.AddChild(buff);
     }
 
     public override void _Process(double delta)
@@ -52,7 +51,7 @@ public partial class MeteoriteSpawner : Node2D
         if (SpawnIntervalRemaining <= 0)
         {
             SpawnIntervalRemaining = Utils.Random(SpawnIntervalRange);
-            GD.Print("Spawning meteorite");
+            GD.Print("Spawning buff");
             Spawn();
         }
     }

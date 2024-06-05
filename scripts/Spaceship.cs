@@ -7,9 +7,6 @@ public partial class Spaceship : RigidBody2D
     private const float InitialSpeed = 16;
 
     [Export]
-    public Node2D? Root { get; set; }
-
-    [Export]
     public float RotationSpeed { get; set; } = (float)Math.PI / 2.0f;
 
     [Export]
@@ -20,6 +17,9 @@ public partial class Spaceship : RigidBody2D
 
     [Export]
     public float ShootCooldown { get; set; }
+
+    [Export]
+    public BuffSystem? Buffs { get; set; }
 
     [Export]
     public Cannon[] Cannons { get; set; } = Array.Empty<Cannon>();
@@ -100,6 +100,8 @@ public partial class Spaceship : RigidBody2D
         SetProcess(true);
         CollisionLayer = 1;
         Visible = true;
+
+        Buffs?.Reset();
     }
 
     public override void _Ready()

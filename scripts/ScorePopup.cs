@@ -42,6 +42,14 @@ public partial class ScorePopup : Window
         foreach (var meteorite in GetTree().GetNodesInGroup(Meteorite.Group))
             meteorite.QueueFree();
 
+        // Destroy all buffs
+        foreach (var buff in GetTree().GetNodesInGroup(Buff.Group))
+            buff.QueueFree();
+
+        // Destroy all projectiles
+        foreach (var projectile in GetTree().GetNodesInGroup(Projectile.Group))
+            projectile.QueueFree();
+
         // Reset the player to the center
         var spaceship = GetTree().Root.GetNode<Spaceship>("Root/Spaceship");
         spaceship.Reset();
