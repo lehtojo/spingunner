@@ -225,7 +225,7 @@ PointsPerSecond = 100
 
 [node name="Score" parent="Gui" instance=ExtResource("9_xooyc")]
 initial_position = 2
-visible = false
+size = Vector2i(360, 300)
 
 [node name="CRT" type="ColorRect" parent="Gui"]
 material = SubResource("ShaderMaterial_mtolh")

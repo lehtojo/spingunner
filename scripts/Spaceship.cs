@@ -121,6 +121,9 @@ public partial class Spaceship : RigidBody2D
 
     public override void _PhysicsProcess(double delta)
     {
+        if (!Visible)
+            return;
+
         AngularVelocity = RotationSpeed;
 
         // The player can steer the spaceship using the main cannon's recoil velocity
