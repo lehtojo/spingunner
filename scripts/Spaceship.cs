@@ -52,6 +52,10 @@ public partial class Spaceship : RigidBody2D
 
     private void OnHit(Node body)
     {
+        // If we're already destroyed, just return
+        if (!Visible)
+            return;
+
         if (body.HasMeta("type") && body.GetMeta("type").AsString() == "meteorite")
         {
             // Explode the ship
