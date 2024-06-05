@@ -2,10 +2,10 @@
 
 [ext_resource type="Script" path="res://scripts/Spaceship.cs" id="1_e7yaq"]
 [ext_resource type="PackedScene" uid="uid://ctcbb2vfr0et1" path="res://scenes/projectile.tscn" id="2_kcmlc"]
-[ext_resource type="Texture2D" uid="uid://b1q51qwd5gypr" path="res://sprites/circle.png" id="2_sav4l"]
 [ext_resource type="PackedScene" uid="uid://ddo0s4ji68k62" path="res://scenes/explosion.tscn" id="3_c0awg"]
 [ext_resource type="Script" path="res://scripts/MeteoriteSpawner.cs" id="3_c8w6i"]
-[ext_resource type="Texture2D" uid="uid://cyd1643q524op" path="res://sprites/box.png" id="4_7wtao"]
+[ext_resource type="Texture2D" uid="uid://bklgq4h7m3a8d" path="res://sprites/spaceship.png" id="3_ymq4r"]
+[ext_resource type="Texture2D" uid="uid://cp4jpk8nxub4r" path="res://sprites/cannon.png" id="4_weh51"]
 [ext_resource type="Script" path="res://scripts/Cannon.cs" id="5_x0ifc"]
 [ext_resource type="PackedScene" uid="uid://ckeoiaexmcks8" path="res://scenes/meteorite.tscn" id="6_31u28"]
 [ext_resource type="AudioStream" uid="uid://8h2uxc8o35sl" path="res://sounds/cannon.wav" id="6_dgr32"]
@@ -19,8 +19,8 @@
 friction = 0.0
 bounce = 1.0
 
-[sub_resource type="CircleShape2D" id="CircleShape2D_cb8fj"]
-radius = 16.0
+[sub_resource type="CircleShape2D" id="CircleShape2D_w3x0f"]
+radius = 27.0
 
 [sub_resource type="SegmentShape2D" id="SegmentShape2D_ycpv4"]
 a = Vector2(0, -360)
@@ -40,14 +40,14 @@ font_size = 32
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_mtolh"]
 shader = ExtResource("13_laesp")
-shader_parameter/screen_width = 1024.0
-shader_parameter/screen_height = 600.0
+shader_parameter/screen_width = 1152.0
+shader_parameter/screen_height = 648.0
 shader_parameter/BarrelPower = 1.1
-shader_parameter/color_bleeding = 1.2
+shader_parameter/color_bleeding = 1.0
 shader_parameter/bleeding_range_x = 3.0
 shader_parameter/bleeding_range_y = 3.0
 shader_parameter/lines_distance = 4.0
-shader_parameter/scan_size = 2.0
+shader_parameter/scan_size = 4.0
 shader_parameter/scanline_alpha = 0.9
 shader_parameter/lines_velocity = 30.0
 
@@ -70,17 +70,16 @@ Explosion = ExtResource("3_c0awg")
 CannonSound = NodePath("Cannon Audio")
 
 [node name="Shape" type="CollisionShape2D" parent="Spaceship"]
-shape = SubResource("CircleShape2D_cb8fj")
+position = Vector2(-1, 0)
+shape = SubResource("CircleShape2D_w3x0f")
 
 [node name="Sprite" type="Sprite2D" parent="Spaceship"]
-modulate = Color(0, 1, 0, 1)
-texture = ExtResource("2_sav4l")
+texture = ExtResource("3_ymq4r")
 
 [node name="Cannon 1" type="Sprite2D" parent="Spaceship" node_paths=PackedStringArray("ProjectileSpawnpoint")]
-modulate = Color(0, 1, 0, 1)
-position = Vector2(25, 0)
-scale = Vector2(0.75, 0.2)
-texture = ExtResource("4_7wtao")
+z_index = -1
+position = Vector2(32, 0)
+texture = ExtResource("4_weh51")
 script = ExtResource("5_x0ifc")
 Projectile = ExtResource("2_kcmlc")
 ProjectileSpawnpoint = NodePath("Spawnpoint")
@@ -90,14 +89,13 @@ position = Vector2(11, 0)
 
 [node name="Line" type="Line2D" parent="Spaceship/Cannon 1"]
 points = PackedVector2Array(0, 0, 2560, 0)
+width = 2.0
 default_color = Color(0.501961, 0.501961, 0.501961, 0.501961)
 
 [node name="Cannon 2" type="Sprite2D" parent="Spaceship" node_paths=PackedStringArray("ProjectileSpawnpoint")]
-modulate = Color(0, 1, 0, 1)
-position = Vector2(24, -11)
-rotation = -0.261799
-scale = Vector2(0.75, 0.2)
-texture = ExtResource("4_7wtao")
+z_index = -1
+position = Vector2(5, -20)
+texture = ExtResource("4_weh51")
 script = ExtResource("5_x0ifc")
 Projectile = ExtResource("2_kcmlc")
 ProjectileSpawnpoint = NodePath("Spawnpoint")
@@ -107,14 +105,13 @@ position = Vector2(11, 0)
 
 [node name="Line" type="Line2D" parent="Spaceship/Cannon 2"]
 points = PackedVector2Array(0, 0, 2560, 0)
+width = 2.0
 default_color = Color(0.501961, 0.501961, 0.501961, 0.501961)
 
 [node name="Cannon 3" type="Sprite2D" parent="Spaceship" node_paths=PackedStringArray("ProjectileSpawnpoint")]
-modulate = Color(0, 1, 0, 1)
-position = Vector2(24, 11)
-rotation = 0.261799
-scale = Vector2(0.75, 0.2)
-texture = ExtResource("4_7wtao")
+z_index = -1
+position = Vector2(5, 20)
+texture = ExtResource("4_weh51")
 script = ExtResource("5_x0ifc")
 Projectile = ExtResource("2_kcmlc")
 ProjectileSpawnpoint = NodePath("Spawnpoint")
@@ -124,6 +121,7 @@ position = Vector2(11, 0)
 
 [node name="Line" type="Line2D" parent="Spaceship/Cannon 3"]
 points = PackedVector2Array(0, 0, 2560, 0)
+width = 2.0
 default_color = Color(0.501961, 0.501961, 0.501961, 0.501961)
 
 [node name="Cannon Audio" type="AudioStreamPlayer" parent="Spaceship"]
@@ -214,7 +212,7 @@ PointsPerSecond = 100
 initial_position = 2
 visible = false
 
-[node name="ColorRect" type="ColorRect" parent="Gui"]
+[node name="CRT" type="ColorRect" parent="Gui"]
 material = SubResource("ShaderMaterial_mtolh")
 anchors_preset = 15
 anchor_right = 1.0

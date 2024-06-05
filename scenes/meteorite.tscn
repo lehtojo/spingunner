@@ -1,10 +1,7 @@
-[gd_scene load_steps=4 format=3 uid="uid://ckeoiaexmcks8"]
+[gd_scene load_steps=3 format=3 uid="uid://ckeoiaexmcks8"]
 
 [ext_resource type="Script" path="res://scripts/Meteorite.cs" id="1_4vtou"]
-[ext_resource type="Texture2D" uid="uid://b1q51qwd5gypr" path="res://sprites/circle.png" id="2_8h32v"]
-
-[sub_resource type="CircleShape2D" id="CircleShape2D_5i0ps"]
-radius = 16.0
+[ext_resource type="Texture2D" uid="uid://ys3wboke5t0f" path="res://sprites/meteorite.png" id="2_48rjw"]
 
 [node name="Meteorite" type="RigidBody2D"]
 gravity_scale = 0.0
@@ -13,9 +10,9 @@ contact_monitor = true
 script = ExtResource("1_4vtou")
 metadata/type = "meteorite"
 
-[node name="Shape" type="CollisionShape2D" parent="."]
-shape = SubResource("CircleShape2D_5i0ps")
+[node name="Shape" type="CollisionPolygon2D" parent="."]
+build_mode = 1
+polygon = PackedVector2Array(-15, -30, 3, -20, 17, -23, 26, -17, 26, -11, 19, -2, 29, 6, 29, 12, 17, 23, 13, 23, 10, 21, 2, 26, -9, 26, -26, 20, -29, 5, -19, -10, -23, -22)
 
 [node name="Sprite" type="Sprite2D" parent="."]
-modulate = Color(0, 1, 0, 1)
-texture = ExtResource("2_8h32v")
+texture = ExtResource("2_48rjw")
