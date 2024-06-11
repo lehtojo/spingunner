@@ -1,4 +1,4 @@
-[gd_scene load_steps=26 format=3 uid="uid://c6egfltalfs6d"]
+[gd_scene load_steps=25 format=3 uid="uid://c6egfltalfs6d"]
 
 [ext_resource type="Script" path="res://scripts/Spaceship.cs" id="1_e7yaq"]
 [ext_resource type="PackedScene" uid="uid://ctcbb2vfr0et1" path="res://scenes/projectile.tscn" id="2_kcmlc"]
@@ -15,7 +15,6 @@
 [ext_resource type="PackedScene" uid="uid://d4ctclc5ppj7d" path="res://scenes/score.tscn" id="9_xooyc"]
 [ext_resource type="Script" path="res://scripts/BuffSpawner.cs" id="10_7dydq"]
 [ext_resource type="PackedScene" uid="uid://di5kpfcg0827c" path="res://scenes/burst_fire_buff.tscn" id="11_jbdlb"]
-[ext_resource type="AudioStream" uid="uid://d2c858430n3xv" path="res://sounds/music.mp3" id="12_d2vq6"]
 [ext_resource type="PackedScene" uid="uid://kg3mh75jlhck" path="res://scenes/rapid_fire_buff.tscn" id="12_neyex"]
 [ext_resource type="Shader" path="res://crt.gdshader" id="13_laesp"]
 
@@ -238,5 +237,4 @@ grow_vertical = 2
 scale = Vector2(19.6461, 9.82974)
 
 [node name="Music" type="AudioStreamPlayer" parent="."]
-stream = ExtResource("12_d2vq6")
 autoplay = true
